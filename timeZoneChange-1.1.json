@@ -1,0 +1,73 @@
+{
+	"jpsVersion": "0.3",
+	"jpsType": "update",
+	"application": {
+		"categories": [
+				"apps/dev-tools"
+		],
+		"name": "TimeZone change",
+		"id": "timetz",
+		"logo": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/images/timezone-logo.png",
+		"version": "1.1",
+		"type": "php",
+		"description": {
+			"en": "To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field. \nExample: America/Fortaleza = UTC-3 \nList of tz database time zones: <a href='https://www.google.com/fusiontables/DataSource?docid=1qJ-l1_iImMjq0pQvVquN8j5pSo7HhwAxd5NfwQc'><font color=\"LimeGreen\">Time Zones</a>",
+
+			"ru": "To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field. \nExample: America/Fortaleza = UTC-3 \nList of tz database time zones: <a href='https://www.google.com/fusiontables/DataSource?docid=1qJ-l1_iImMjq0pQvVquN8j5pSo7HhwAxd5NfwQc'><font color=\"LimeGreen\">Time Zones</a>"
+		},
+		"short": {
+			"ru": "TimeZone change tool",
+			"en": "TimeZone change tool"
+		},
+		"settings": {
+			"fields": [{
+					"type": "string",
+					"name": "dashoard_url",
+					"caption": {
+						"en": "TimeZone Name",
+						"ru": "TimeZone Name"
+					},
+					"required": true
+				}
+			]
+		},
+		"env": {
+			"onInit": {
+				"call": ["executeAllNodes"]
+			}
+		},
+		"procedures": [{
+				"id": "executeAllNodes",
+				"onCall": [{
+						"executeScript": {
+							"type": "javascript",
+							"script": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/scripts/onInstallScript.js"
+						}
+					}
+				]
+			}, {
+				"id": "uploads",
+				"onCall": [{
+						"executeShellCommands": [{
+								"nodeType": "${this.nodeType}",
+								"commands": [
+										"rm /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime"
+								],
+								"user": "root"
+							}
+						]
+					}, {
+						"restartNodes": {
+							"nodeType": "${this.nodeType}"
+						}
+					}
+				]
+			}
+		],
+		"success": {
+			"ru": "Your TimeZone was changed",
+			"en": "Your TimeZone was changed"
+		}
+
+	}
+}
