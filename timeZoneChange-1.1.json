@@ -1,58 +1,55 @@
 {
-	"jpsVersion": "0.3",
 	"jpsType": "update",
 	"application": {
-		"categories": [
-				"apps/dev-tools"
-		],
-		"name": "TimeZone change",
 		"id": "timetz",
-		"logo": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/images/timezone-logo.png",
-		"version": "1.1",
-		"type": "php",
-		"description": {
-			"en": "To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field. \nExample: America/Fortaleza = UTC-3 \nList of tz database time zones: <a href='https://www.google.com/fusiontables/DataSource?docid=1qJ-l1_iImMjq0pQvVquN8j5pSo7HhwAxd5NfwQc'><font color=\"LimeGreen\">Time Zones</a>",
-
-			"ru": "To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field. \nExample: America/Fortaleza = UTC-3 \nList of tz database time zones: <a href='https://www.google.com/fusiontables/DataSource?docid=1qJ-l1_iImMjq0pQvVquN8j5pSo7HhwAxd5NfwQc'><font color=\"LimeGreen\">Time Zones</a>"
-		},
 		"short": {
-			"ru": "TimeZone change tool",
-			"en": "TimeZone change tool"
+			"en": "TimeZone change tool",
+			"ru": "TimeZone change tool"
 		},
+		"logo": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/images/timezone-logo.png",
+		"description": {
+			"en": "To set the needed Time Zone settings find it at TZ column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza = UTC-3 \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank'><font color=\"LimeGreen\">List of tz database time zones<\/a>",
+			"ru": "To set the needed Time Zone settings find it at TZ column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza = UTC-3 \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank><font color=\"LimeGreen\">List of tz database time zones<\/a>"
+		},
+		"name": "TimeZone change",
 		"settings": {
 			"fields": [{
-					"type": "string",
 					"name": "dashoard_url",
 					"caption": {
 						"en": "TimeZone Name",
 						"ru": "TimeZone Name"
 					},
+					"type": "string",
 					"required": true
 				}
 			]
 		},
+		"categories": ["apps/dev-tools"],
 		"env": {
 			"onInit": {
 				"call": ["executeAllNodes"]
 			}
+		},
+		"type": "php",
+		"success": {
+			"en": "Your TimeZone was changed to ${settings.dashoard_url}",
+			"ru": "Your TimeZone was changed to ${settings.dashoard_url}"
 		},
 		"procedures": [{
 				"id": "executeAllNodes",
 				"onCall": [{
 						"executeScript": {
 							"type": "javascript",
-							"script": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/scripts/onInstallScript.js"
+							"script": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/scripts/thisNodes.js"
 						}
 					}
 				]
 			}, {
-				"id": "uploads",
+				"id": "installAgent",
 				"onCall": [{
 						"executeShellCommands": [{
+								"commands": ["echo \"=== OLD TimeZone settings for ${this.nodeType} ===\" >> /var/log/jpsaddon.log", "timedatectl  >> /var/log/jpsaddon.log", "rm -f /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime", "echo \"=== NEW TimeZone ${settings.dashoard_url} has been set for ${this.nodeType} ===\" >> /var/log/jpsaddon.log", "timedatectl  >> /var/log/jpsaddon.log"],
 								"nodeType": "${this.nodeType}",
-								"commands": [
-										"rm /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime"
-								],
 								"user": "root"
 							}
 						]
@@ -64,10 +61,7 @@
 				]
 			}
 		],
-		"success": {
-			"ru": "Your TimeZone was changed",
-			"en": "Your TimeZone was changed"
-		}
-
-	}
+		"version": "2.0"
+	},
+	"jpsVersion": "0.3"
 }

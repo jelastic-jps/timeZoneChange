@@ -1,4 +1,4 @@
-//import com.hivext.api.environment.Environment;
+import com.hivext.api.environment.Environment;
 
 var APPID = hivext.local.getParam("TARGET_APPID"),
     SESSION = hivext.local.getParam("session"),
@@ -11,8 +11,6 @@ var APPID = hivext.local.getParam("TARGET_APPID"),
     softNodeProperties,
     nodes;
     
-/*    
-    //return REPLACEMENTS;
 
 oEnvService = hivext.local.exp.wrapRequest(new Environment(APPID, SESSION));
 envInfoResponse = oEnvService.getEnvInfo();
@@ -27,23 +25,17 @@ iterator = nodes.iterator();
 while(iterator.hasNext()) {
     softNode = iterator.next();
     softNodeProperties = softNode.getProperties();
-
     aActions.push({
         procedure : procedureName,
         params : {
-            nodeType : "${targetNodes.nodeType}"
+            nodeType : softNodeProperties.nodeType
         }
     });
 }
-*/
+
 return {
     result: 0,
     onAfterReturn: {
-        call : {
-        procedure : procedureName,
-        params : {
-            nodeType : "${targetNodes.nodeType}"
-        }
-    }
+        call : aActions
     }
 };
