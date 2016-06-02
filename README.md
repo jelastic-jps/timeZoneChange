@@ -1,7 +1,7 @@
 # Jelastic timeZoneChange Add-on
 
 This repository provides [timeZoneChange](http://jelastic.com/) add-on for Jelastic Platform.
-[![GET IT HOSTED](https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/images/getithosted.png)](http://go.jelastic.com/test?hoster-select=1&theme=modern&app=https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/timeZoneChange-1.1.json)
+
 
 **timeZoneChange** is a TimeZone change tool. add-on to set the needed Time Zone settings.
 
