@@ -6,7 +6,7 @@
 			"en": "TimeZone change tool",
 			"ru": "TimeZone change tool"
 		},
-		"logo": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/images/timezone-logo.png",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/timeZoneChange/master/images/timezone-logo.png",
 		"description": {
 			"en": "To set the needed Time Zone settings find it at TZ column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza = UTC-3 \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank'><font color=\"LimeGreen\">List of tz database time zones<\/a>",
 			"ru": "To set the needed Time Zone settings find it at TZ column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza = UTC-3 \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank><font color=\"LimeGreen\">List of tz database time zones<\/a>"
@@ -40,7 +40,7 @@
 				"onCall": [{
 						"executeScript": {
 							"type": "javascript",
-							"script": "https://raw.githubusercontent.com/JelasticJPS/timeZoneChange/master/scripts/thisNodes.js"
+							"script": "https://raw.githubusercontent.com/jelastic-jps/timeZoneChange/master/scripts/thisNodes.js"
 						}
 					}
 				]
