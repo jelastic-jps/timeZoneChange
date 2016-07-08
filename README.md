@@ -3,7 +3,7 @@
 
 This repository provides Time Zone Change add-on for Jelastic Platform.
 
-**Time Zone Change** is a Time Zone change tool. add-on to set the needed Time Zone settings.
+**Time Zone Change** is a Time Zone change tool, add-on to set the needed Time Zone settings.
 
 **Type of nodes this add-on can be applied to**: 
 - All node types.
