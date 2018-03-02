@@ -9,10 +9,9 @@ This repository provides Time Zone Change add-on for Jelastic Platform.
 - All node types.
 
 ### What it can be used for?
-timeZoneChange is an add-on to set the needed Time Zone settings.<br />
-To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field.<br />
-Example: America/Fortaleza = UTC-3<br />
-List of tz database time zones: <a href="https://www.google.com/fusiontables/DataSource?docid=1qJ-l1_iImMjq0pQvVquN8j5pSo7HhwAxd5NfwQc"><font color=\"LimeGreen\">Time Zones</font></a>
+timeZoneChange is an add-on to set the needed Time Zone settings.  
+To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field.  
+_Example_: America/Fortaleza = UTC-3
 
 ### Deployment
 
