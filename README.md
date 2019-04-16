@@ -10,8 +10,8 @@ This repository provides Time Zone Change add-on for Jelastic Platform.
 
 ### What it can be used for?
 timeZoneChange is an add-on to set the needed Time Zone settings.  
-To set the needed Time Zone settings find it at TZ column and past it to TimeZone Name field.  
-_Example_: America/Fortaleza = UTC-3
+To set the needed Time Zone settings find it at TZ database name column and past it to TimeZone Name field.  
+_Example_: America/Fortaleza   
 
 ### Deployment
 
