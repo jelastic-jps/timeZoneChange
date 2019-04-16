@@ -11,7 +11,7 @@
 			"en": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank'><font color=\"LimeGreen\">List of tz database time zones<\/a>",
 			"ru": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank><font color=\"LimeGreen\">List of tz database time zones<\/a>"
 		},
-		"name": "TimeZone change",
+		"name": "TimeZone Change",
 		"settings": {
 			"fields": [{
 					"name": "dashoard_url",
