@@ -1,67 +1,43 @@
 {
-	"jpsType": "update",
-	"application": {
-		"id": "timetz",
-		"short": {
-			"en": "TimeZone change tool",
-			"ru": "TimeZone change tool"
-		},
-		"logo": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png",
-		"description": {
-			"en": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank'><font color=\"LimeGreen\">List of tz database time zones<\/a>",
-			"ru": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank><font color=\"LimeGreen\">List of tz database time zones<\/a>"
-		},
-		"name": "TimeZone Change",
-		"settings": {
-			"fields": [{
-					"name": "dashoard_url",
-					"caption": {
-						"en": "TimeZone Name",
-						"ru": "TimeZone Name"
-					},
-					"type": "string",
-					"required": true
-				}
-			]
-		},
-		"categories": ["apps/dev-tools"],
-		"env": {
-			"onInit": {
-				"call": ["executeAllNodes"]
-			}
-		},
-		"type": "php",
-		"success": {
-			"en": "Your TimeZone was changed to ${settings.dashoard_url}",
-			"ru": "Your TimeZone was changed to ${settings.dashoard_url}"
-		},
-		"procedures": [{
-				"id": "executeAllNodes",
-				"onCall": [{
-						"executeScript": {
-							"type": "javascript",
-							"script": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/scripts/thisNodes.js"
-						}
-					}
-				]
-			}, {
-				"id": "installAgent",
-				"onCall": [{
-						"executeShellCommands": [{
-								"commands": ["echo \"=== OLD TimeZone settings for ${this.nodeType} ===\" >> /var/log/jpsaddon.log", "timedatectl  >> /var/log/jpsaddon.log", "rm -f /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime", "echo \"=== NEW TimeZone ${settings.dashoard_url} has been set for ${this.nodeType} ===\" >> /var/log/jpsaddon.log", "timedatectl  >> /var/log/jpsaddon.log"],
-								"nodeType": "${this.nodeType}",
-								"user": "root"
-							}
-						]
-					}, {
-						"restartNodes": {
-							"nodeType": "${this.nodeType}"
-						}
-					}
-				]
-			}
-		],
-		"version": "2.0"
-	},
-	"jpsVersion": "0.3"
+  "id": "timetz",
+  "short": "TimeZone change tool",
+  "type": "update",
+  "logo": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png",
+  "description": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field. \n\nExample: America/Fortaleza \n\n<a href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones' target='_blank'><font color=\"LimeGreen\">List of tz database time zones</a>",
+  "name": "TimeZone Change",
+  "settings": {
+    "fields": [
+      {
+        "name": "dashoard_url",
+        "caption": "TimeZone Name",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "categories": [
+    "apps/dev-tools"
+  ],
+  "onInstall": "executeAllNodes",
+  "actions": {
+    "executeAllNodes": {
+      "script": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/scripts/thisNodes.js"
+    },
+    "installAgent": [
+      {
+        "cmd": [
+          "echo \"=== OLD TimeZone settings for ${this.nodeType} ===\" >> /var/log/jpsaddon.log",
+          "timedatectl  >> /var/log/jpsaddon.log",
+          "rm -f /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime",
+          "echo \"=== NEW TimeZone ${settings.dashoard_url} has been set for ${this.nodeType} ===\" >> /var/log/jpsaddon.log",
+          "timedatectl  >> /var/log/jpsaddon.log"
+        ],
+        "nodeType": "${this.nodeType}",
+        "user": "root"
+      },
+      "restartNodes [${this.nodeType}]"
+    ]
+  },
+  "version": "0.3",
+  "success": "Your TimeZone was changed to ${settings.dashoard_url}"
 }
