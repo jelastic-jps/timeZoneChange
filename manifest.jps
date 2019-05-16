@@ -4,7 +4,7 @@
   "logo": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png",
   "description": {
     "text": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field. <br/>Example: America/Fortaleza. <br/> [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)",
-    "short": "TimeZone Change Tool",
+    "short": "TimeZone Change Tool"
   },
   "name": "TimeZone Change",
   "settings": {
