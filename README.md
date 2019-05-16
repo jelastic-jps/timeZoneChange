@@ -1,5 +1,5 @@
 [![Time Zone Change](images/timezone-logo.png)](../../../time-zone-change)
-## Jelastic Time Zone Change Add-on
+## Jelastic Time Zone Change Add-On
 
 This repository provides Time Zone Change add-on for Jelastic Platform.
 
