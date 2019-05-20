@@ -1,45 +1,46 @@
-{
-  "id": "timetz",  
-  "type": "update",
-  "logo": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png",
-  "description": {
-    "text": "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field.  \n\nExample: America/Fortaleza. \n\n[List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)",
-    "short": "TimeZone Change Tool"
-  },
-  "name": "TimeZone Change",
-  "settings": {
-    "fields": [
-      {
-        "name": "dashoard_url",
-        "caption": "TimeZone Name",
-        "type": "string",
-        "required": true
-      }
-    ]
-  },
-  "categories": [
-    "apps/dev-tools"
-  ],
-  "onInstall": "executeAllNodes",
-  "actions": {
-    "executeAllNodes": {
-      "script": "https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/scripts/thisNodes.js"
-    },
-    "installAgent": [
-      {
-        "cmd": [
-          "echo \"=== OLD TimeZone settings for ${this.nodeType} ===\" >> /var/log/jpsaddon.log",
-          "timedatectl  >> /var/log/jpsaddon.log",
-          "rm -f /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime",
-          "echo \"=== NEW TimeZone ${settings.dashoard_url} has been set for ${this.nodeType} ===\" >> /var/log/jpsaddon.log",
-          "timedatectl  >> /var/log/jpsaddon.log"
-        ],
-        "nodeType": "${this.nodeType}",
-        "user": "root"
-      },
-      "restartNodes [${this.nodeType}]"
-    ]
-  },
-  "version": "0.3",
-  "success": "Your TimeZone was changed to ${settings.dashoard_url}"
-}
+id: timetz
+type: update
+logo: https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png
+description:
+  text: "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field.  \n\nExample: America/Fortaleza. \n\n[List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)"
+  short: TimeZone Change Tool
+name: TimeZone Change
+onBeforeInit: |
+  var url = "http://worldtimeapi.org/api/timezone";
+  var zones = toNative(new com.hivext.api.core.utils.Transport().get(url)).sort();
+  var values = {};
+  
+  for (var i = 0, n = zones.length; i < n; i++) {
+    values[zones[i]] = zones[i];
+  }
+
+  return {
+    result: 0,
+    settings: {
+      fields: [{
+        name: "dashoard_url",
+        caption: "TimeZone Name",
+        type: "list",
+        required: true,
+        editable: true,
+        values: values
+      }]
+    }
+  }
+  
+categories:
+- apps/dev-tools
+onInstall: installAgent
+actions:
+  installAgent:
+  - forEach(env.nodes):
+    - cmd [${@i.nodeType}]:
+      - echo "=== OLD TimeZone settings for ${@i.nodeType} ===" >> /var/log/jpsaddon.log
+      - timedatectl  >> /var/log/jpsaddon.log
+      - rm -f /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime
+      - echo "=== NEW TimeZone ${settings.dashoard_url} has been set for ${@i.nodeType} ===" >> /var/log/jpsaddon.log
+      - timedatectl  >> /var/log/jpsaddon.log
+      user: root
+    - restartNodes [${@i.nodeType}]
+version: '0.3'
+success: Your TimeZone was changed to ${settings.dashoard_url}
