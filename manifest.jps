@@ -37,7 +37,7 @@ actions:
     - cmd [${@i.nodeType}]:
       - echo "=== OLD TimeZone settings for ${@i.nodeType} ===" >> /var/log/jpsaddon.log
       - timedatectl  >> /var/log/jpsaddon.log
-      - rm -f /etc/localtime; cp /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime
+      - ln -sf /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime
       - echo "=== NEW TimeZone ${settings.dashoard_url} has been set for ${@i.nodeType} ===" >> /var/log/jpsaddon.log
       - timedatectl  >> /var/log/jpsaddon.log
       user: root
