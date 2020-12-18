@@ -1,15 +1,17 @@
 id: timetz
 type: update
+version: 0.3
 logo: https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png
 description:
-  text: "To set the needed Time Zone settings find it at TZ database name column and paste it to TimeZone Name field.  \n\nExample: America/Fortaleza. \n\n[List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)"
+  text: "Choose Time Zone from dropdown list.  \n\nExample: America/Fortaleza"
   short: TimeZone Change Tool
+targetNodes:
+  nodeType: '*'
 name: TimeZone Change
 onBeforeInit: |
-  var url = "http://worldtimeapi.org/api/timezone";
-  var zones = toNative(new com.hivext.api.core.utils.Transport().get(url)).sort();
+  var zones = toNative(java.time.ZoneId.getAvailableZoneIds()).sort();
+  var serverTimeZone = toNative(java.time.ZoneId.systemDefault());
   var values = {};
-  
   for (var i = 0, n = zones.length; i < n; i++) {
     values[zones[i]] = zones[i];
   }
@@ -18,29 +20,36 @@ onBeforeInit: |
     result: 0,
     settings: {
       fields: [{
-        name: "dashoard_url",
+        name: "timeZone",
         caption: "TimeZone Name",
         type: "list",
         required: true,
         editable: true,
+        "default": serverTimeZone,
         values: values
       }]
     }
   }
-  
+
 categories:
 - apps/dev-tools
 onInstall: installAgent
 actions:
   installAgent:
-  - forEach(env.nodes):
-    - cmd [${@i.nodeType}]:
-      - echo "=== OLD TimeZone settings for ${@i.nodeType} ===" >> /var/log/jpsaddon.log
-      - timedatectl  >> /var/log/jpsaddon.log
-      - ln -sf /usr/share/zoneinfo/${settings.dashoard_url} /etc/localtime
-      - echo "=== NEW TimeZone ${settings.dashoard_url} has been set for ${@i.nodeType} ===" >> /var/log/jpsaddon.log
-      - timedatectl  >> /var/log/jpsaddon.log
+    - cmd[*]: |-
+        echo "=== OLD TimeZone settings ===" >> /var/log/jpsaddon.log
+        date  >> /var/log/jpsaddon.log
+        ln -sf /usr/share/zoneinfo/${settings.timeZone} /etc/localtime
+        echo "=== NEW TimeZone ${settings.timeZone} has been set ===" >> /var/log/jpsaddon.log
+        date  >> /var/log/jpsaddon.log
       user: root
-    - restartNodes [${@i.nodeType}]
-version: '0.3'
-success: Your TimeZone was changed to ${settings.dashoard_url}
+    - forEach (env.nodes):
+      - if ("${@i.nodeType}" === "docker"):
+          api: jelastic.environment.control.RestartContainerById
+          envName: ${env.name}
+          nodeid: ${@i.id}
+      - else:
+          api: jelastic.env.control.RestartNodeById
+          envName: ${env.name}
+          nodeid: ${@i.id}
+success: Your TimeZone was changed to ${settings.timeZone}
