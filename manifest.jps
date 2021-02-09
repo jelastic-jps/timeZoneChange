@@ -7,6 +7,7 @@ description:
   short: TimeZone Change Tool
 targetNodes:
   nodeType: '*'
+  guestOSType: LINUX
 name: TimeZone Change
 onBeforeInit: |
   var zones = toNative(java.time.ZoneId.getAvailableZoneIds()).sort();
