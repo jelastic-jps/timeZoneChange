@@ -5,8 +5,7 @@ logo: https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/ima
 description:
   text: "Choose Time Zone from dropdown list.  \n\nExample: America/Fortaleza"
   short: TimeZone Change Tool
-targetNodes:
-  nodeType: '*'
+targetNodes: 
   guestOSType: LINUX
 name: TimeZone Change
 onBeforeInit: |
