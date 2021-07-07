@@ -1,13 +1,19 @@
 id: timetz
 type: update
 version: 0.3
+name: TimeZone Change
 logo: https://raw.githubusercontent.com/jelastic-jps/time-zone-change/master/images/timezone-logo.png
+
 description:
   text: "Choose Time Zone from dropdown list.  \n\nExample: America/Fortaleza"
   short: TimeZone Change Tool
+
 targetNodes: 
   guestOSType: LINUX
-name: TimeZone Change
+
+categories:
+- apps/dev-tools
+
 onBeforeInit: |
   var zones = toNative(java.time.ZoneId.getAvailableZoneIds()).sort();
   var serverTimeZone = toNative(java.time.ZoneId.systemDefault());
@@ -31,9 +37,10 @@ onBeforeInit: |
     }
   }
 
-categories:
-- apps/dev-tools
+onAfterRedeployContainer: installAgent
+
 onInstall: installAgent
+
 actions:
   installAgent:
     - cmd[*]: |-
@@ -52,4 +59,5 @@ actions:
           api: jelastic.env.control.RestartNodeById
           envName: ${env.name}
           nodeid: ${@i.id}
+
 success: Your TimeZone was changed to ${settings.timeZone}
